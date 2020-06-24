@@ -1,88 +1,31 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.welcome_app')
 
-        <title>Laravel</title>
+@section('welcome-body')
+    <div class="container">
+        <div class="content">
+            <h1>All Products</h1>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+            <div class="row">
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
+                @foreach ($products as $product)
 
-            .full-height {
-                height: 100vh;
-            }
+                        <div class='col-md-4' style='box-shadow: 0 4px 4px 0 gray; max-width: 300px; margin: 5px 1% 10px 1%; text-align: center; padding: 0 0 5px 0;'>
+                            <div class='panel panel-info'>
+                                <div class='panel-heading' style='color: red;'><h3>{{ $product->name }}</h3></div>
+                                <div class='panel-body'>
+                                    <img src='{{ $product->image }}' style='width:160px; height:250px;'/>
+                                </div>
+                                <div class='panel-heading'>
+                                    {{ $product->price }}
+                                </div>
+                                <div>
+                                    <a href='#' id='product_view' class='btn btn-info btn-xs'>ViewItem</a>
+                                </div>
+                            </div>
+                        </div>
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                        <a href="{{ url('/member/home') }}">Member Dashbord</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                    <h1>ljfrnbrgvohrsfd</h1>
+                @endforeach
             </div>
         </div>
-    </body>
-</html>
+    </div>
+@endsection

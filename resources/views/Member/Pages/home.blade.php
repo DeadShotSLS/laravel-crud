@@ -303,7 +303,7 @@
                     <h1 class="card-title">Add Product to Store</h1>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('products.store') }}" method='POST'>
+                    <form action="/productadd" method='POST'>
                         {{csrf_field()}}
                         <div class="form-body">
                             <hr>
