@@ -303,7 +303,7 @@
                     <h1 class="card-title">Add Product to Store</h1>
                 </div>
                 <div class="card-body">
-                    <form action="/productadd" method='POST'>
+                    <form action="/productadd" method='POST' enctype="multipart/form-data">
                         {{csrf_field()}}
                         <div class="form-body">
                             <hr>
@@ -335,7 +335,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group has-danger">
                                         <label class="control-label">Image</label>
-                                        <input type="file" name="image"  id="image" class="form-control form-control-danger" placeholder="12n">
+                                        <input type="file" name="image" id='post_image' accept=".jpg, .jpeg, .png" class="form-control form-control-danger" placeholder="12n">
                                         </div>
                                 </div>
                             </div>

@@ -19,23 +19,40 @@ class ProductController extends ParentController
 
         $userid = Auth::user()->id;
 
+        if ($request->image !=null){
+            $file = $request->file('image');
+
+            $profileSave = time() . Auth::id() . "-post." . $file->getClientOriginalExtension();
+            $public_path = 'img/product/';
+            $path_url = $public_path . $profileSave;
+            $file->move($public_path, $profileSave);
+
+            } else {
+            $path_url = 'img/product/NO_IMG.png';
+            }
+
+        // $imageName = time().'.'.$request->image->extension();
+        // $request->image->move(public_path('images'), $imageName);
+
         $product->name = $request->p_name;
         $product->description = $request->p_desc;
         $product->price = $request->price;
-        $product->image = $request->image;
+        $product->image = $path_url;
         $product->user_id = $userid;
         $product->save();
 
         return view('Member.Pages.home');
     }
 
-
-
-    public function Products(){
+    public function index()
+    {
         $data = product::all();
 
-        return view('welcome')->with('products',$data);
+        return view('home')->with('products',$data);
     }
+
+
+
 
 
 
