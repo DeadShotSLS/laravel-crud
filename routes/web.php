@@ -23,6 +23,11 @@ Auth::routes();
 Route::get('/','HomeController@Products')->name('products');
 
 Route::get('/home', 'Member\ProductController@Products')->name('home_products');
+Route::get('/ProductDelete/{id}', 'Member\ProductController@ProductDelete')->name('home_products_delete');
+Route::get('/ProductUpdate/{id}', 'Member\ProductController@ProductUpdate')->name('home_products_update');
+
 Route::get('/member/home', 'Member\HomeController@home')->name('member_home');
+Route::get('/member/add', 'Member\HomeController@add')->name('member_add');
 
 Route::post('/productadd','Member\ProductController@ProductAdd')->name('add_produt');
+Route::post('/ProductUpdates','Member\ProductController@ProductUpdates')->name('update_produt');

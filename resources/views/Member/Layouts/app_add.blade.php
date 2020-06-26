@@ -27,14 +27,14 @@
     <div id="content-wrapper" class="d-flex flex-column">
 
       <!-- Main Content -->
-      
+      <div id="content">
 
         <!-- Topbar -->
         @include('Member.Includes.navbar')
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        @yield('member_home_content')
+        @yield('member_add_content')
         <!-- /.container-fluid -->
 
       </div>
@@ -44,7 +44,7 @@
       @include('Member.Includes.footer')
       <!-- End of Footer -->
 
-   
+    </div>
     <!-- End of Content Wrapper -->
 
   </div>

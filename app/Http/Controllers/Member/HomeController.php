@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Model\Product;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends ParentController
 {
@@ -14,6 +16,17 @@ class HomeController extends ParentController
      */
     public function home()
     {
-        return view('Member.Pages.home');
+        $userid = Auth::user()->id;
+
+        $data = Product::orderBy('id')
+                            ->where('user_id',$userid)
+                            ->get();
+
+        return view('Member.Pages.home')->with('products',$data);
+    }
+
+    public function add()
+    {
+        return view('Member.Pages.add');
     }
 }

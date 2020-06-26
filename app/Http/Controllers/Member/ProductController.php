@@ -65,17 +65,37 @@ class ProductController extends ParentController
     public function ProductUpdate($id){
         $product = product::find($id);
 
-        return view('update_product')->with('product_data',$product);
+        return view('Member.Pages.update')->with('product_data',$product);
     }
 
-    // public function ProductUpdates(Request $request){
-    //     $id=$request->id;
-    //     $task=$request->task;
-    //     $data=task::find($id);
-    //     $data->task=$task;
-    //     $data->save();
+    public function ProductUpdates(Request $request){
 
-    //     $data=task::all();
-    //     return view('Pages.home')->with('tasks',$data);
-    // }
+        $userid = Auth::user()->id;
+
+        if ($request->image !=null){
+            $file = $request->file('image');
+
+            $profileSave = time() . Auth::id() . "-post." . $file->getClientOriginalExtension();
+            $public_path = 'img/product/';
+            $path_url = $public_path . $profileSave;
+            $file->move($public_path, $profileSave);
+
+            } else {
+            $path_url = 'img/product/NO_IMG.png';
+            }
+
+            $id=$request->id;
+            $product=product::find($id);
+            
+            $product->name = $request->p_name;
+            $product->description = $request->p_desc;
+            $product->price = $request->price;
+            $product->image = $path_url;
+            $product->update();
+
+            $data = Product::orderBy('id')
+                            ->where('user_id',$userid)
+                            ->get();
+        return view('Member.Pages.home')->with('products',$data);
+    }
 }
