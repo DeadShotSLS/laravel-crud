@@ -20,9 +20,9 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::get('/home', 'Member\ProductController@index')->name('home');
-Route::get('/member/home', 'Member\HomeController@index')->name('member_home');
-
-
 Route::get('/','HomeController@Products')->name('products');
+
+Route::get('/home', 'Member\ProductController@Products')->name('home_products');
+Route::get('/member/home', 'Member\HomeController@home')->name('member_home');
+
 Route::post('/productadd','Member\ProductController@ProductAdd')->name('add_produt');

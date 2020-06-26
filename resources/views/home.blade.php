@@ -1,23 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+    <div class="container">
+        <div class="content">
+            <h1>My Products</h1>
+            <div class="row">
+                @foreach ($products as $product)
+                    <div class='col-md-4' style='box-shadow: 0 4px 4px 0 gray; max-width: 300px; margin: 5px 1% 10px 1%; text-align: center; padding: 0 0 5px 0;'>
+                        <div class='panel panel-info'>
+                            <div class='panel-heading' style='color: red;'><h3>{{ $product->name }}</h3></div>
+                            <div class='panel-body'>
+                                <img src='{{ $product->image }}' style='width:160px; height:250px;'/>
+                            </div>
+                            <div class='panel-heading'>
+                                {{ $product->price }}
+                            </div>
+                            <div>
+                                <a href='#' id='product_view' class='btn btn-info btn-xs'>ViewItem</a>
+                            </div>
                         </div>
-                    @endif
-
-                    My Products
-                </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
-</div>
 @endsection

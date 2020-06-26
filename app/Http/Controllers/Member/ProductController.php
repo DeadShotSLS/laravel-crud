@@ -31,9 +31,6 @@ class ProductController extends ParentController
             $path_url = 'img/product/NO_IMG.png';
             }
 
-        // $imageName = time().'.'.$request->image->extension();
-        // $request->image->move(public_path('images'), $imageName);
-
         $product->name = $request->p_name;
         $product->description = $request->p_desc;
         $product->price = $request->price;
@@ -44,33 +41,34 @@ class ProductController extends ParentController
         return view('Member.Pages.home');
     }
 
-    public function index()
+    public function Products()
     {
-        $data = product::all();
+        // filter product by user id
+
+        $userid = Auth::user()->id;
+
+        $data = Product::orderBy('id')
+                            ->where('user_id',$userid)
+                            ->get();
+
+        // $data = product::all();
 
         return view('home')->with('products',$data);
     }
 
+    public function ProductDelete($id){
+        $product = product::find($id);
+        $product->delete();
+        return redirect()->back();
+    }
 
+    public function ProductUpdate($id){
+        $product = product::find($id);
 
+        return view('update_product')->with('product_data',$product);
+    }
 
-
-
-
-
-    // public function taskDelete($id){
-    //     $task = task::find($id);
-    //     $task->delete();
-    //     return redirect()->back();
-    // }
-
-    // public function taskUpdate($id){
-    //     $task = task::find($id);
-
-    //     return view('update_task')->with('taskdata',$task);
-    // }
-
-    // public function taskUpdates(Request $request){
+    // public function ProductUpdates(Request $request){
     //     $id=$request->id;
     //     $task=$request->task;
     //     $data=task::find($id);

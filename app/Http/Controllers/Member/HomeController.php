@@ -12,7 +12,7 @@ class HomeController extends ParentController
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function home()
     {
         return view('Member.Pages.home');
     }
