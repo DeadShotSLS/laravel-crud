@@ -38,7 +38,11 @@ class ProductController extends ParentController
         $product->user_id = $userid;
         $product->save();
 
-        return view('Member.Pages.home');
+        $data = Product::orderBy('id')
+                            ->where('user_id',$userid)
+                            ->get();
+
+        return view('Member.Pages.home')->with('products',$data);
     }
 
     public function Products()
@@ -86,7 +90,7 @@ class ProductController extends ParentController
 
             $id=$request->id;
             $product=product::find($id);
-            
+
             $product->name = $request->p_name;
             $product->description = $request->p_desc;
             $product->price = $request->price;
