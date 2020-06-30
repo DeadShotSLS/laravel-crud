@@ -13,11 +13,18 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-   
+
 
     public function Products(){
         $data = product::all();
 
         return view('welcome')->with('products',$data);
+    }
+
+    public function view($id){
+        $product = product::find($id);
+
+        return view('view')->with('product',$product);
+
     }
 }

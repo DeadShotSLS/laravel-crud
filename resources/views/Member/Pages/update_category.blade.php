@@ -1,38 +1,36 @@
-@extends('Member.Layouts.app')
+@extends('Member.Layouts.app_update_category')
 
-@section('member_home_content')
+@section('category_update_content')
     <div class="container-fluid">
         <div class="col-lg-12">
             <div class="card card-outline-primary">
                 <div class="card-header">
-                    <h1 class="card-title">All Products</h1>
+                    <h1 class="card-title">Update Category</h1>
                 </div>
                 <div class="card-body">
-                    <table class="table table-light">
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Category</th>
-                        <th>Image</th>
-                        <th>Action</th>
-                        @foreach($products as $product)
-                            <tr>
-                                <td>{{$product->id}}</td>
-                                <td>{{$product->name}}</td>
-                                <td>{{$product->description}}</td>
-                                <td>{{$product->price}}</td>
-                                <td>{{ $product->category->c_name}}</td>
-                                <td><img src='{{ asset($product->image) }}' style='width:80px; height:125px;'/></td>
-                                <td>
-                                    <a href="/ProductDelete/{{$product->id}}" class="btn btn-danger">Delete</a> &nbsp;
-                                    <a href="/ProductUpdate/{{$product->id}}" class="btn btn-success">Update</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </table>
+                    <form action="/CategoryUpdates" method='POST' enctype="multipart/form-data">
+                        {{csrf_field()}}
+                        <div class="form-body">
+                            <hr>
+                            <div class="row p-t-20">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label class="control-label">Category Name</label>
+                                        <input type="text" name="c_name" class="form-control" value="{{ $category_data->c_name }}" placeholder="Enter Category Name">
+                                        <input type="hidden" name="id" value="{{ $category_data->id }}">
+                                        </div>
+                                </div>
+                            </div>
+                            <!--/row-->
+
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <input type="submit" name="submit" class="btn btn-success" value="save">
+                            <a href="{{ url('/member/home') }}" class="btn btn-inverse">Cancel</a>
+                        </div>
+                    </form>
                 </div>
-            </div>
         </div>
     </div>
 

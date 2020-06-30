@@ -44,11 +44,24 @@
                                         </div>
                                 </div>
                             </div>
+                            <!--/row-->
+                            <div class="row p-t-20">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Category</label>
+                                        <select class="form-control" name="category">
+                                            @foreach($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->c_name }}</option>
+                                            @endforeach
+                                          </select>
+                                        </div>
+                                </div>
+                            </div>
                             </div>
                         </div>
                         <div class="form-actions">
                             <input type="submit" name="submit" class="btn btn-success" value="save">
-                            <a href="{{ url('/home') }}" class="btn btn-inverse">Cancel</a>
+                            <a href="{{ url('/member/home') }}" class="btn btn-inverse">Cancel</a>
                         </div>
                     </form>
                 </div>

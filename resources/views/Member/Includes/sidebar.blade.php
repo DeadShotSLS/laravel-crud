@@ -32,6 +32,12 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ url('/member/add') }}">Add Product</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url('/member/add_category') }}">Category</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url('/home') }}">Home</a>
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

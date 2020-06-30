@@ -4,20 +4,29 @@ namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
 use App\Model\Product;
+use App\Model\Category;
 use App\product as AppProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ProductController extends ParentController
 {
-    public function ProductAdd(Request $request){
-        $product = new Product();
+
+        protected $product;
+        protected $category;
+
+        public function __construct()
+        {
+            $this->product = new Product();
+            $this->category = new Category();
+        }
+
+
+        public function ProductAdd(Request $request){
 
         // $this->validate($request,[
         //     'task'=>'required|max:200|min:5',
         // ]);
-
-        $userid = Auth::user()->id;
 
         if ($request->image !=null){
             $file = $request->file('image');
@@ -31,15 +40,16 @@ class ProductController extends ParentController
             $path_url = 'img/product/NO_IMG.png';
             }
 
-        $product->name = $request->p_name;
-        $product->description = $request->p_desc;
-        $product->price = $request->price;
-        $product->image = $path_url;
-        $product->user_id = $userid;
-        $product->save();
+        $this->product->name = $request->p_name;
+        $this->product->description = $request->p_desc;
+        $this->product->price = $request->price;
+        $this->product->c_id = $request->category;
+        $this->product->image = $path_url;
+        $this->product->user_id = Auth::user()->id;
+        $this->product->save();
 
         $data = Product::orderBy('id')
-                            ->where('user_id',$userid)
+                            ->where('user_id',Auth::user()->id)
                             ->get();
 
         return view('Member.Pages.home')->with('products',$data);
@@ -49,32 +59,37 @@ class ProductController extends ParentController
     {
         // filter product by user id
 
-        $userid = Auth::user()->id;
-
         $data = Product::orderBy('id')
-                            ->where('user_id',$userid)
+                            ->where('user_id',Auth::user()->id)
                             ->get();
-
-        // $data = product::all();
 
         return view('home')->with('products',$data);
     }
 
     public function ProductDelete($id){
-        $product = product::find($id);
-        $product->delete();
+        $this->product = product::find($id);
+        if(file_exists($this->product->image)) {
+            @unlink($this->product->image);
+        }
+        $this->product->delete();
         return redirect()->back();
     }
 
     public function ProductUpdate($id){
-        $product = product::find($id);
+        $this->product = product::find($id);
 
-        return view('Member.Pages.update')->with('product_data',$product);
+        $data = Category::orderBy('id')
+                            ->where('user_id',Auth::user()->id)
+                            ->get();
+
+        return view('Member.Pages.update')->with('product_data',$this->product)->with('categories',$data);
     }
+
 
     public function ProductUpdates(Request $request){
 
-        $userid = Auth::user()->id;
+        $id=$request->id;
+        $this->product = product::find($id);
 
         if ($request->image !=null){
             $file = $request->file('image');
@@ -84,22 +99,27 @@ class ProductController extends ParentController
             $path_url = $public_path . $profileSave;
             $file->move($public_path, $profileSave);
 
+            if(file_exists($this->product->image)) {
+                @unlink($this->product->image);
+            }
+
             } else {
             $path_url = 'img/product/NO_IMG.png';
             }
 
-            $id=$request->id;
-            $product=product::find($id);
 
-            $product->name = $request->p_name;
-            $product->description = $request->p_desc;
-            $product->price = $request->price;
-            $product->image = $path_url;
-            $product->update();
+
+            $this->product->name = $request->p_name;
+            $this->product->description = $request->p_desc;
+            $this->product->price = $request->price;
+            $this->product->c_id = $request->category;
+            $this->product->image = $path_url;
+            $this->product->update();
 
             $data = Product::orderBy('id')
-                            ->where('user_id',$userid)
+                            ->where('user_id',Auth::user()->id)
                             ->get();
+
         return view('Member.Pages.home')->with('products',$data);
     }
 }

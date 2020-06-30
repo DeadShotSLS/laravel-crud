@@ -13,10 +13,10 @@
                                 <img src='{{ $product->image }}' style='width:160px; height:250px;'/>
                             </div>
                             <div class='panel-heading'>
-                                <b>{{ $product->price }}</b>
+                                <b>Rs:{{ $product->price }}</b>
                             </div>
                             <div>
-                                <a href='#' id='product_view' class='btn btn-info btn-xs'>ViewItem</a>
+                                <a href="/view/{{ $product->id }}" id='product_view' class='btn btn-info btn-xs'>ViewItem</a>
                             </div>
                         </div>
                     </div>
