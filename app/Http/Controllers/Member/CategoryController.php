@@ -6,52 +6,63 @@ use App\Http\Controllers\Controller;
 use App\Model\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use domain\Facade\CategoryFacade;
+use App\Http\Requests\CategoryRequest;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CrudMail;
 
 class CategoryController extends ParentController
 {
-    protected $category;
-
-    public function __construct()
+    /**
+     * Category_Add
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function Category_Add(CategoryRequest $request)
     {
-        $this->category = new Category();
+        CategoryFacade::addCategory($request);
+
+        return redirect('/member/add_category');
     }
 
-    public function Category_Add(Request $request){
 
-        $this->category->c_name = $request->c_name;
-        $this->category->user_id= Auth::user()->id;
-        $this->category->save();
-
-        $data = Category::orderBy('id')
-                            ->where('user_id',Auth::user()->id)
-                            ->get();
-
-        return redirect()->back()->with('categories',$data);
-    }
-
-    public function Category_Delete($id){
-        $this->category = Category::find($id);
-        $this->category->delete();
+    /**
+     * Category_Delete
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function Category_Delete($id)
+    {
+        CategoryFacade::deleteCategory($id);
 
         return redirect()->back();
     }
 
-    public function Category_Update($id){
-        $category = Category::find($id);
+    /**
+     * Category_Update
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function Category_Update($id)
+    {
+        $category = CategoryFacade::findCategory($id);
 
         return view('Member.Pages.update_category')->with('category_data',$category);
     }
 
-    public function Category_Updates(Request $request){
-        $id=$request->id;
-        $this->category = Category::find($id);
-        $this->category->c_name = $request->c_name;
-        $this->category->update();
+    /**
+     * Category_Updates
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function Category_Updates(CategoryRequest $request)
+    {
+        CategoryFacade::updateCategory($request);
 
-        $data = Category::orderBy('id')
-                            ->where('user_id',Auth::user()->id)
-                            ->get();
-
-        return view('Member.Pages.add_category')->with('categories',$data);
+        return redirect('/member/add_category');
     }
 }

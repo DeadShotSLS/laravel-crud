@@ -8,6 +8,9 @@
                     <h1 class="card-title">Update Category</h1>
                 </div>
                 <div class="card-body">
+                    @foreach ($errors->all() as $message)
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @endforeach
                     <form action="/CategoryUpdates" method='POST' enctype="multipart/form-data">
                         {{csrf_field()}}
                         <div class="form-body">

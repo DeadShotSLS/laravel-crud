@@ -6,120 +6,83 @@ use App\Http\Controllers\Controller;
 use App\Model\Product;
 use App\Model\Category;
 use App\product as AppProduct;
+use domain\Facade\CategoryFacade;
+use domain\Facade\ProductFacade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends ParentController
 {
+    /**
+     * ProductAdd
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function ProductAdd(ProductRequest $request)
+    {
+        ProductFacade::addProduct($request);
 
-        protected $product;
-        protected $category;
-
-        public function __construct()
-        {
-            $this->product = new Product();
-            $this->category = new Category();
-        }
-
-
-        public function ProductAdd(Request $request){
-
-        // $this->validate($request,[
-        //     'task'=>'required|max:200|min:5',
-        // ]);
-
-        if ($request->image !=null){
-            $file = $request->file('image');
-
-            $profileSave = time() . Auth::id() . "-post." . $file->getClientOriginalExtension();
-            $public_path = 'img/product/';
-            $path_url = $public_path . $profileSave;
-            $file->move($public_path, $profileSave);
-
-            } else {
-            $path_url = 'img/product/NO_IMG.png';
-            }
-
-        $this->product->name = $request->p_name;
-        $this->product->description = $request->p_desc;
-        $this->product->price = $request->price;
-        $this->product->c_id = $request->category;
-        $this->product->image = $path_url;
-        $this->product->user_id = Auth::user()->id;
-        $this->product->save();
-
-        $data = Product::orderBy('id')
-                            ->where('user_id',Auth::user()->id)
-                            ->get();
-
-        return view('Member.Pages.home')->with('products',$data);
+        return redirect('/member/home');
     }
 
+    /**
+     * Products
+     *
+     * @return void
+     */
     public function Products()
     {
-        // filter product by user id
+        $product = ProductFacade::getUserProduct(Auth::user()->id);
 
-        $data = Product::orderBy('id')
-                            ->where('user_id',Auth::user()->id)
-                            ->get();
-
-        return view('home')->with('products',$data);
+        return view('home')->with('products',$product);
     }
 
-    public function ProductDelete($id){
-        $this->product = product::find($id);
-        if(file_exists($this->product->image)) {
-            @unlink($this->product->image);
-        }
-        $this->product->delete();
+    /**
+     * ProductDelete
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function ProductDelete($id)
+    {
+        ProductFacade::deleteProduct($id);
+
         return redirect()->back();
     }
 
-    public function ProductUpdate($id){
-        $this->product = product::find($id);
+    /**
+     * ProductUpdate
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function ProductUpdate($id)
+    {
+        $product = ProductFacade::oneProduct($id);
+        $category = CategoryFacade::getUserCategory(Auth::user()->id);
 
-        $data = Category::orderBy('id')
-                            ->where('user_id',Auth::user()->id)
-                            ->get();
-
-        return view('Member.Pages.update')->with('product_data',$this->product)->with('categories',$data);
+        return view('Member.Pages.update')->with('product_data',$product)->with('categories',$category);
     }
 
 
-    public function ProductUpdates(Request $request){
+    /**
+     * ProductUpdates
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function ProductUpdates(ProductRequest $request)
+    {
+        ProductFacade::updateProduct($request);
 
-        $id=$request->id;
-        $this->product = product::find($id);
+        return redirect('/member/home');
+    }
 
-        if ($request->image !=null){
-            $file = $request->file('image');
+    public function StatusUpdate(Request $request){
+        ProductFacade::updateStatus($request);
 
-            $profileSave = time() . Auth::id() . "-post." . $file->getClientOriginalExtension();
-            $public_path = 'img/product/';
-            $path_url = $public_path . $profileSave;
-            $file->move($public_path, $profileSave);
-
-            if(file_exists($this->product->image)) {
-                @unlink($this->product->image);
-            }
-
-            } else {
-            $path_url = 'img/product/NO_IMG.png';
-            }
-
-
-
-            $this->product->name = $request->p_name;
-            $this->product->description = $request->p_desc;
-            $this->product->price = $request->price;
-            $this->product->c_id = $request->category;
-            $this->product->image = $path_url;
-            $this->product->update();
-
-            $data = Product::orderBy('id')
-                            ->where('user_id',Auth::user()->id)
-                            ->get();
-
-        return view('Member.Pages.home')->with('products',$data);
+        return response()->json(['success'=>'Product status change successfully.']);
     }
 }

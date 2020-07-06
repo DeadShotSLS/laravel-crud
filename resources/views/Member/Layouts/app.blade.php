@@ -11,7 +11,6 @@
 
   <title>SB Admin 2 - Dashboard</title>
   @include('Member.Includes.css')
-
 </head>
 
 <body id="page-top">
@@ -27,7 +26,7 @@
     <div id="content-wrapper" class="d-flex flex-column">
 
       <!-- Main Content -->
-      
+
 
         <!-- Topbar -->
         @include('Member.Includes.navbar')
@@ -44,7 +43,7 @@
       @include('Member.Includes.footer')
       <!-- End of Footer -->
 
-   
+
     <!-- End of Content Wrapper -->
 
   </div>
@@ -60,5 +59,4 @@
 
   @include('Member.Includes.js')
 </body>
-
 </html>

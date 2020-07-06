@@ -41,7 +41,7 @@
                                     <div class="form-group has-danger">
                                         <label class="control-label">Image</label>
                                         <input type="file" name="image" id='post_image' accept=".jpg, .jpeg, .png" class="form-control form-control-danger" placeholder="12n">
-                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <!--/row-->

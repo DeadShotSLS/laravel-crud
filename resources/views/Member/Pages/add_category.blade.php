@@ -8,6 +8,9 @@
                     <h1 class="card-title">Add Category to Store</h1>
                 </div>
                 <div class="card-body">
+                    @foreach ($errors->all() as $message)
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @endforeach
                     <form action="/CategoryAdd" method='POST' enctype="multipart/form-data">
                         {{csrf_field()}}
                         <div class="form-body">

@@ -14,3 +14,9 @@
  <!-- Page level custom scripts -->
  <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
  <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
+
+ <script src="{{ asset('js/bootstrap4-toggle.min.js') }}"></script>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.js"></script>
+
+ @yield('home_js')
