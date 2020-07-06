@@ -4,3 +4,9 @@
 
  <!-- Custom styles for this template-->
  <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+<link href="{{ asset('css/bootstrap4-toggle.min.css') }}" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.css">
+
+ @yield('home_css')

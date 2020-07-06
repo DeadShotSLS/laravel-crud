@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\Product;
 use App\Model\Category;
+use domain\Facade\CategoryFacade;
 use Illuminate\Support\Facades\Auth;
+use domain\Facade\ProductFacade;
 
 class HomeController extends ParentController
 {
@@ -15,31 +17,40 @@ class HomeController extends ParentController
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    /**
+     * home
+     *
+     * @return void
+     */
     public function home()
     {
+        $product = ProductFacade::getUserAllProduct(Auth::user()->id);
 
-        $data = Product::orderBy('id')
-                            ->where('user_id',Auth::user()->id)
-                            ->get();
-
-        return view('Member.Pages.home')->with('products',$data);
+        return view('Member.Pages.home')->with('products',$product);
     }
 
+    /**
+     * add
+     *
+     * @return void
+     */
     public function add()
     {
-        $data = Category::orderBy('id')
-                            ->where('user_id',Auth::user()->id)
-                            ->get();
+        $category = CategoryFacade::getUserCategory(Auth::user()->id);
 
-        return view('Member.Pages.add')->with('categories',$data);
+        return view('Member.Pages.add')->with('categories',$category);
     }
 
+    /**
+     * add_category
+     *
+     * @return void
+     */
     public function add_category()
     {
-        $data = Category::orderBy('id')
-                            ->where('user_id',Auth::user()->id)
-                            ->get();
+        $category = CategoryFacade::getUserCategory(Auth::user()->id);
 
-        return view('Member.Pages.add_category')->with('categories',$data);
+        return view('Member.Pages.add_category')->with('categories',$category);
     }
+
 }

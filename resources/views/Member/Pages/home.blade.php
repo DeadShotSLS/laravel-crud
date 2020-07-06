@@ -23,10 +23,12 @@
                                 <td>{{$product->description}}</td>
                                 <td>{{$product->price}}</td>
                                 <td>{{ $product->category->c_name}}</td>
-                                <td><img src='{{ asset($product->image) }}' style='width:80px; height:125px;'/></td>
-                                <td>
+                                <td><img src='{{ asset('public/uploads/'.$product->images->name) }}' style='width:80px; height:125px;'/></td>
+                                <td style="width: 20%">
                                     <a href="/ProductDelete/{{$product->id}}" class="btn btn-danger">Delete</a> &nbsp;
-                                    <a href="/ProductUpdate/{{$product->id}}" class="btn btn-success">Update</a>
+                                    <a href="/ProductUpdate/{{$product->id}}" class="btn btn-success">Update</a> &nbsp;
+
+                                    <input data-id="{{$product->id}}" class="toggle-class" type="checkbox" data-style="ios" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="Disable" {{ $product->status ? 'checked' : '' }}>
                                 </td>
                             </tr>
                         @endforeach
@@ -35,8 +37,35 @@
             </div>
         </div>
     </div>
-
   </div>
+@endsection
+
+@section('home_css')
+    <style>
+    .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20rem; }
+    .toggle.ios .toggle-handle { border-radius: 20rem; }
+    </style>
+@endsection
+
+@section('home_js')
+    <script>
+        $(document).ready(function() {
+        $('.toggle-class').change(function() {
+            var status = $(this).prop('checked') == true ? 1 : 0;
+            var id = $(this).data('id');
+
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: '/changeStatus',
+                data: {'status': status, 'id': id},
+                success: function(data){
+                    console.log(data.success)
+                }
+            });
+        })
+        })
+    </script>
 @endsection
 
 @section('logout_model')

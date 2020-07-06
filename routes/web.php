@@ -3,6 +3,7 @@
 use App\Http\Controllers\Member\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,11 +16,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+// Auth::routes();
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/','HomeController@Products')->name('products');
 Route::get('/view/{id}','HomeController@view')->name('view_product');
@@ -40,3 +39,7 @@ Route::post('/CategoryUpdates','Member\CategoryController@Category_Updates')->na
 
 Route::post('/productadd','Member\ProductController@ProductAdd')->name('add_produt');
 Route::post('/ProductUpdates','Member\ProductController@ProductUpdates')->name('update_produt');
+
+// Ajax Route
+
+Route::get('/changeStatus','Member\ProductController@StatusUpdate')->name('change_product_status');

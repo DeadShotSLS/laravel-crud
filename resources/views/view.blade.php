@@ -9,7 +9,7 @@
                         <div class='panel panel-info'>
                             <div class='panel-heading' style='color: red;'><h2>{{ $product->name }}</h2></div>
                             <div class='panel-body'>
-                                <img src='{{ asset($product->image) }}' style='width:320px; height:500px;'/>
+                                <img src='{{ asset('public/uploads/'.$product->images->name) }}' style='width:320px; height:500px;'/>
                             </div>
                             <div class='panel-heading'>
                                 <h3><b>Rs:{{ $product->price }}</b></h3>

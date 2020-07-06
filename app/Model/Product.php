@@ -18,4 +18,8 @@ class Product extends Model
     public function category(){
         return $this->belongsTo('App\Model\Category','c_id');
     }
+
+    public function images(){
+        return $this->belongsTo('App\Image','image');
+    }
 }
